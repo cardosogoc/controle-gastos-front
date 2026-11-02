@@ -1,0 +1,138 @@
+.register-page {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 32px;
+  padding: 32px 5%;
+  min-height: calc(100vh - 88px); // desconta o menu do topo
+  background-color: var(--cinza-urbano);
+}
+
+.form-card {
+  --verde-principal: #546B51;
+  --branco: #FFFFFF;
+
+  flex: 0 0 480px;
+  max-width: 480px;
+  margin: 0;
+  padding: 16px;
+  border-radius: 20px;
+  background-color: var(--branco);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.12);
+
+  --mat-card-title-text-color: var(--verde-principal);
+  --mat-form-field-filled-container-color: transparent;
+  --mat-form-field-filled-label-text-color: var(--verde-principal);
+  --mat-form-field-filled-focus-label-text-color: var(--verde-principal);
+  --mat-form-field-filled-hover-label-text-color: var(--verde-principal);
+  --mat-form-field-filled-input-text-color: var(--verde-principal);
+  --mat-form-field-filled-input-text-placeholder-color: var(--verde-principal);
+  --mat-form-field-filled-caret-color: var(--verde-principal);
+  --mat-form-field-filled-active-indicator-color: var(--verde-principal);
+  --mat-form-field-filled-hover-active-indicator-color: var(--verde-principal);
+  --mat-form-field-filled-focus-active-indicator-color: var(--verde-principal);
+
+  mat-card-title {
+    text-align: start;
+    color: var(--verde-principal);
+  }
+}
+
+.form-container {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding-top: 16px;
+}
+
+.form-container mat-form-field {
+  width: 100%;
+}
+
+.form-container mat-icon {
+  color: #546B51;
+}
+
+.form-container mat-icon[matSuffix] {
+  margin-right: 12px;
+}
+
+// Lista de requisitos da senha
+.requisitos-wrapper {
+  display: grid;
+  grid-template-rows: 0fr; // fechado
+  transition: grid-template-rows 0.3s ease;
+
+  &.aberto {
+    grid-template-rows: 1fr; // aberto, "desce"
+  }
+}
+
+.requisitos {
+  list-style: none;
+  margin: 0;
+  padding: 0 4px;
+  min-height: 0;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+
+  li {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 14px;
+    color: #c0392b; // vermelho (não atendido)
+    transition: color 0.2s;
+
+    mat-icon {
+      font-size: 18px;
+      width: 18px;
+      height: 18px;
+      color: inherit; // sem isso pegaria o verde do .form-container mat-icon
+    }
+
+    &.ok {
+      color: #546B51; // verde (atendido)
+    }
+  }
+}
+
+.btn-cadastrar {
+  width: 100%;
+  margin-top: 8px;
+  --mat-button-filled-container-color: #546B51;
+  --mat-button-filled-label-text-color: #FFFFFF;
+}
+
+.hero-image {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-width: 0;
+
+  img {
+    width: 100%;
+    max-width: 450px;
+    height: auto;
+    object-fit: contain;
+    border-radius: 20px;
+  }
+}
+
+@media (max-width: 900px) {
+  .register-page {
+    flex-direction: column;
+  }
+
+  .form-card {
+    flex: none;
+    width: 100%;
+  }
+
+  .hero-image {
+    justify-content: center;
+  }
+}

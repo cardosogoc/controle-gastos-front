@@ -1,0 +1,81 @@
+<div class="register-page">
+  <mat-card class="form-card">
+    <mat-card-header>
+      <mat-card-title>Cadastro de Usuário</mat-card-title>
+    </mat-card-header>
+
+    <mat-card-content class="form-container">
+      <mat-form-field>
+        <mat-label>Nome</mat-label>
+        <input matInput />
+        <mat-icon matSuffix>person</mat-icon>
+      </mat-form-field>
+
+      <mat-form-field>
+        <mat-label>Email</mat-label>
+        <input matInput placeholder="email@exemplo.com" [formField]="email" />
+        @for (error of email().errors(); track error) {
+          <mat-error>{{ error.message }}</mat-error>
+        }
+        <mat-icon matSuffix>email</mat-icon>
+      </mat-form-field>
+
+      <mat-form-field>
+        <mat-label>Telefone</mat-label>
+        <input
+          matInput
+          placeholder="(55) 11111-1111"
+          inputmode="numeric"
+          [formField]="telefone"
+          (input)="formatarTelefone($event)"
+        />
+        <mat-icon matSuffix>phone</mat-icon>
+      </mat-form-field>
+
+      <mat-form-field>
+        <mat-label>Senha</mat-label>
+        <input matInput [type]="hide() ? 'password' : 'text'" [formField]="senha" />
+        <button
+          matIconButton
+          matSuffix
+          (click)="clickEvent($event)"
+          [attr.aria-label]="'Hide password'"
+          [attr.aria-pressed]="hide()"
+        >
+          <mat-icon>{{ hide() ? 'visibility_off' : 'visibility' }}</mat-icon>
+        </button>
+      </mat-form-field>
+
+      <mat-form-field>
+        <mat-label>Confirmar Senha</mat-label>
+        <input matInput [type]="hideConfirm() ? 'password' : 'text'" [formField]="confirmarSenha" />
+        <button
+          matIconButton
+          matSuffix
+          (click)="clickEventConfirm($event)"
+          [attr.aria-label]="'Hide password'"
+          [attr.aria-pressed]="hideConfirm()"
+        >
+          <mat-icon>{{ hideConfirm() ? 'visibility_off' : 'visibility' }}</mat-icon>
+        </button>
+      </mat-form-field>
+
+      <div class="requisitos-wrapper" [class.aberto]="senha().value().length > 0">
+        <ul class="requisitos">
+          @for (req of requisitos(); track req.texto) {
+            <li [class.ok]="req.ok">
+              <mat-icon>{{ req.ok ? 'check' : 'close' }}</mat-icon>
+              <span>{{ req.texto }}</span>
+            </li>
+          }
+        </ul>
+      </div>
+
+      <button matButton="filled" class="btn-cadastrar" type="button">Cadastrar</button>
+    </mat-card-content>
+  </mat-card>
+
+  <div class="hero-image">
+    <img [src]="imgHero" alt="Ilustração do Controle de Gastos" />
+  </div>
+</div>
