@@ -1,0 +1,43 @@
+<mat-toolbar class="app-top-menu-toolbar">
+
+  <button mat-button class="logo-button">
+    <span class="logo">
+      <mat-icon>account_balance_wallet</mat-icon>
+      Controle de Gastos
+    </span>
+  </button>
+
+  <span class="spacer"></span>
+
+  @if (!estaLogado) {
+    <button mat-button routerLink="/login">
+      <mat-icon>login</mat-icon>
+      Login
+    </button>
+
+    <button mat-flat-button routerLink="/register">
+      <mat-icon>person_add</mat-icon>
+      Criar Usuário
+    </button>
+  }
+
+  @if (estaLogado) {
+    <button mat-button [matMenuTriggerFor]="menu" class="user-button">
+      <span>Olá, Fulano!</span>
+      <mat-icon>person</mat-icon>
+    </button>
+
+    <mat-menu #menu="matMenu">
+      <button mat-menu-item routerLink="/user-data">
+        <mat-icon>person</mat-icon>
+        Perfil
+      </button>
+
+      <button mat-menu-item>
+        <mat-icon>logout</mat-icon>
+        Sair
+      </button>
+    </mat-menu>
+  }
+
+</mat-toolbar>

@@ -1,0 +1,52 @@
+<div class="conteudo">
+  <section class="sobre">
+    <h1>
+      <svg class="icone" viewBox="0 0 32 32" aria-hidden="true">
+        <rect width="32" height="32" rx="8" fill="currentColor" />
+        <rect x="7" y="16" width="4" height="9" rx="1" fill="#ffffff" />
+        <rect x="14" y="10" width="4" height="15" rx="1" fill="#ffffff" />
+        <rect x="21" y="6" width="4" height="19" rx="1" fill="#ffffff" />
+      </svg>
+      <span>Controle de Gastos</span>
+    </h1>
+
+    <p class="descricao">
+      Organize suas receitas e despesas, classifique em categorias e acompanhe o resumo mensal
+      do seu dinheiro.
+    </p>
+  </section>
+
+  <section class="exemplo">
+    <h2>Veja como fica o seu controle</h2>
+
+    <ul class="lancamentos">
+      @for (l of lancamentos; track l.descricao) {
+        <li class="lancamento">
+          <div class="info">
+            <strong>{{ l.descricao }}</strong>
+            <span>{{ l.categoria }} · {{ l.data | date: 'dd/MM/yyyy' }}</span>
+          </div>
+
+          <span class="valor" [ngClass]="l.tipo === 'RECEITA' ? 'receita' : 'despesa'">
+            {{ l.tipo === 'RECEITA' ? '+' : '-' }} {{ l.valor | currency: 'BRL' }}
+          </span>
+        </li>
+      }
+    </ul>
+
+    <dl class="resumo">
+      <div>
+        <dt>Receitas</dt>
+        <dd class="receita">{{ totalReceitas | currency: 'BRL' }}</dd>
+      </div>
+      <div>
+        <dt>Despesas</dt>
+        <dd class="despesa">{{ totalDespesas | currency: 'BRL' }}</dd>
+      </div>
+      <div class="saldo">
+        <dt>Saldo do mês</dt>
+        <dd [ngClass]="saldo >= 0 ? 'receita' : 'despesa'">{{ saldo | currency: 'BRL' }}</dd>
+      </div>
+    </dl>
+  </section>
+</div>
