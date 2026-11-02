@@ -1,10 +1,14 @@
-import { Component, computed, signal } from '@angular/core';
+import { Component, computed, inject, signal } from '@angular/core';
 import { email, form, FormField } from '@angular/forms/signals';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+
+import { RegisterRequest } from '../../models/register-request';
+import { AuthService } from '../../services/auth.service';
 
 @Component({
   imports: [
@@ -14,6 +18,7 @@ import { MatInputModule } from '@angular/material/input';
     MatIconModule,
     FormField,
     MatCardModule,
+    MatProgressSpinnerModule,
   ],
   selector: 'app-register',
   styleUrl: './register.component.scss',
@@ -22,6 +27,7 @@ import { MatInputModule } from '@angular/material/input';
 export class RegisterComponent {
   imgHero = 'assets/mainmenu.jpg';
 
+  protected nome = form(signal(''));
   protected senha = form(signal(''));
   protected confirmarSenha = form(signal(''));
   protected telefone = form(signal(''));
@@ -60,22 +66,40 @@ export class RegisterComponent {
   });
 
   protected formatarTelefone(event: Event) {
-  const input = event.target as HTMLInputElement;
+    const input = event.target as HTMLInputElement;
 
-  const d = input.value.replace(/\D/g, '').slice(0, 11);
+    const d = input.value.replace(/\D/g, '').slice(0, 11);
 
-  let formatado = d;
-  if (d.length > 10) {
-    formatado = `(${d.slice(0, 2)}) ${d.slice(2, 7)}-${d.slice(7)}`;
-  } else if (d.length > 6) {
-    formatado = `(${d.slice(0, 2)}) ${d.slice(2, 6)}-${d.slice(6)}`;
-  } else if (d.length > 2) {
-    formatado = `(${d.slice(0, 2)}) ${d.slice(2)}`;
-  } else if (d.length > 0) {
-    formatado = `(${d}`;
+    let formatado = d;
+    if (d.length > 10) {
+      formatado = `(${d.slice(0, 2)}) ${d.slice(2, 7)}-${d.slice(7)}`;
+    } else if (d.length > 6) {
+      formatado = `(${d.slice(0, 2)}) ${d.slice(2, 6)}-${d.slice(6)}`;
+    } else if (d.length > 2) {
+      formatado = `(${d.slice(0, 2)}) ${d.slice(2)}`;
+    } else if (d.length > 0) {
+      formatado = `(${d}`;
+    }
+
+    input.value = formatado;
+    this.telefone().value.set(formatado);
   }
 
-  input.value = formatado;
-  this.telefone().value.set(formatado);
-}
+  private authService = inject(AuthService);
+
+  protected cadastrar() {
+    if (!this.senhaValida()) return;
+
+    const payload: RegisterRequest = {
+      nome: this.nome().value(),
+      email: this.email().value(),
+      telefone: this.telefone().value().replace(/\D/g, ''),
+      senha: this.senha().value(),
+    };
+
+    this.authService.register(payload).subscribe({
+      next: () => console.log('Cadastrado com sucesso'),
+      error: (err) => console.error('Erro ao cadastrar', err),
+    });
+  }
 }
